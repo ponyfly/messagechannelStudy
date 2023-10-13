@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>parent</title>
+</head>
+<body>
+<div id="app">
+  <div class="history"></div>
+  我：<input class="inputcontent" type="text">
+</div>
+<iframe id="iframe" src="http://127.0.0.1:30002/index.html" frameborder="0"></iframe>
+<script>
+  const iframe = document.querySelector('#iframe')
+  const app = document.querySelector('#app')
+	const history = document.querySelector('.history')
+  const channel = new MessageChannel();
+	iframe.addEventListener("load", iframeLoaded, false);
+	function iframeLoaded () {
+		iframe.contentWindow.postMessage('start connect channel', '*', [channel.port2]);
+  }
+	channel.port1.onmessage = handleMessage
+  function handleMessage(e) {
+    history.innerHTML += '对方：' + e.data + '<br>'
+  }
+	const inputcontent = document.querySelector('.inputcontent')
+  inputcontent.addEventListener('keyup', function (e) {
+    if (e.keyCode === 13) {
+      const history = document.querySelector('.history')
+      history.innerHTML += '我：' + inputcontent.value + '<br>'
+      channel.port1.postMessage(inputcontent.value)
+      inputcontent.value = ''
+    }
+  })
+</script>
+</body>
+</html>

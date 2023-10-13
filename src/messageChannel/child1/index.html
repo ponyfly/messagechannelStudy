@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>child1</title>
+</head>
+<body>
+<div style="border: 2px solid red" id="app">
+  我：<input class="inputcontent" type="text">
+  <div class="history"></div>
+</div>
+<script>
+  const inputcontent = document.querySelector('.inputcontent')
+  const history = document.querySelector('.history')
+  let port2
+
+  window.onmessage = function (e) {
+    port2 = e.ports[0]
+    port2.onmessage = messageHandler
+  }
+	messageHandler = function (e) {
+    history.innerHTML += '对方：' + e.data + '<br>'
+  }
+	inputcontent.addEventListener('keyup', function (e) {
+    if (e.keyCode === 13) {
+      history.innerHTML += '我：' + inputcontent.value + '<br>'
+      port2.postMessage(inputcontent.value)
+      inputcontent.value = ''
+    }
+  })
+</script>
+</body>
+</html>

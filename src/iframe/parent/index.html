@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>parent</title>
+</head>
+<body>
+<iframe id="iframe" src="http://127.0.0.1:30002/index.html" frameborder="0"></iframe>
+<script>
+  const iframe = document.querySelector('#iframe')
+  iframe.onload = function() {
+		// 1. iframe不能跨域dom和方法
+		// iframe.contentWindow.sayHello()
+		window.frames[0].postMessage('data from html1', '*')
+	}
+</script>
+</body>
+</html>

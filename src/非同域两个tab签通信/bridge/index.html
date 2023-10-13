@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>parent</title>
+</head>
+<body>
+<script>
+  window.onstorage = function (e) {
+		console.log('jjjj',e)
+		if (e.key === 'info') {
+			console.log(3,e)
+			// window.parent.postMessage(e.newValue, '*')
+    }
+  }
+  window.onmessage = function (e) {
+		console.log('触发storage', e)
+		localStorage.setItem('info', e.data)
+  }
+</script>
+</body>
+</html>

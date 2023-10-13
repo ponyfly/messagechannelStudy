@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+请输入：<input id="ipt" type="text" name="">
+<button onclick="sub()">发送</button>
+<p id="cont"></p>
+<iframe src="http://127.0.0.1:30001" style="display: none"></iframe>
+</body>
+<script type="text/javascript">
+	var ipt = document.querySelector('#ipt')
+	function sub(){
+		document.querySelector('iframe').contentWindow.postMessage(ipt.value,'*');
+		const cont = document.querySelector('#cont')
+		cont.innerHTML +='我：'+ ipt.value + '<br>'
+		ipt.value = ''
+	}
+	window.addEventListener('message',function(e){
+		const cont = document.querySelector('#cont')
+		if(e.data) cont.innerHTML +='对方：'+ e.data + '<br>'
+	});
+</script>
+</html>
